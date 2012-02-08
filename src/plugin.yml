@@ -1,0 +1,15 @@
+name: J2MC_Reports
+main: to.joe.j2mc.reports.J2MC_Reports
+version: 0.0prealpha
+website: http://forums.joe.to
+author: J2 Minecraft Plugin Team
+description: Reports Module
+commands:
+  report:
+    description: File a new report
+    usage: |
+            /report MESSAGE
+  r:
+    description: Report handling
+    usage: |
+            /r

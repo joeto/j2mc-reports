@@ -4,8 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
@@ -85,7 +83,7 @@ public class ReportsManager {
 			ps.setFloat(7, report.getLocation().getYaw());
 			ps.setInt(8, J2MC_Manager.getServerID());
 			ps.setString(9, report.getLocation().getWorld().getName());
-			ps.setLong(10, (new Date().getTime()));
+			ps.setLong(10, report.getTime());
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
 		    rs.next();
