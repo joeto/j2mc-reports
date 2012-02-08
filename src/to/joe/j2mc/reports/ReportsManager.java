@@ -13,6 +13,11 @@ import to.joe.j2mc.core.J2MC_Manager;
 
 public class ReportsManager {
 	
+	J2MC_Reports plugin;
+	public ReportsManager(J2MC_Reports Reports){
+		this.plugin = Reports;
+	}
+	
 	private ArrayList<Report> reports;
 	private final Object sync = new Object();
 	
@@ -42,6 +47,13 @@ public class ReportsManager {
         }
     }
     
+    /**
+     * Close report
+     * 
+     * @param id
+     * @param admin
+     * @param reason
+     */
     public void closeReport(int id, String admin, String reason){
     	final Report r = this.getReport(id);
     	if(r != null){
@@ -95,5 +107,26 @@ public class ReportsManager {
 		}
 	}
 	
+	/**
+	 * Loads data from SQL table onEnable
+	 */
+	public void LoadDataIntially(){
+		plugin.Manager.reports = new ArrayList<Report>();
+		try {
+			PreparedStatement ps = J2MC_Manager.getMySQL().getFreshPreparedStatementHotFromTheOven("SELECT id,user,x,y,z,pitch,yaw,message,world,time,closed from reports where server=? and closed=0");
+			ps.setInt(1, J2MC_Manager.getServerID());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				Location loc = new Location(plugin.getServer().getWorld(rs.getString("world")), rs.getDouble("x"), rs.getDouble("y"), rs.getDouble("z"), rs.getFloat("yaw"), rs.getFloat("pitch"));
+				Report r = new Report(rs.getInt("id"), loc, rs.getString("user"), rs.getString("message"), rs.getLong("time"), rs.getBoolean("closed"));
+				plugin.Manager.reports.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 }

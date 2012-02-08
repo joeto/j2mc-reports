@@ -6,7 +6,7 @@ public class J2MC_Reports extends JavaPlugin{
 
 	public ReportsManager Manager;
 	public void onEnable(){
-		this.Manager = new ReportsManager();
+		this.Manager = new ReportsManager(this);
 		this.getLogger().info("Reports module enabled");
 	}
 	

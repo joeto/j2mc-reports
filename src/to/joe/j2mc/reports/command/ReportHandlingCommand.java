@@ -53,7 +53,21 @@ public class ReportHandlingCommand extends MasterCommand{
                         player.sendMessage(ChatColor.DARK_PURPLE + "/r close ID reason");
                     }
                 }
+                if (action.equals("tp")) {
+                    if (args.length > 1) {
+                        final Report report = plugin.Manager.getReport(Integer.valueOf(args[1]));
+                        if (report != null) {
+                        	player.teleport(report.getLocation());
+                            player.sendMessage(ChatColor.DARK_PURPLE + "Wheeeeeeeee");
+                        } else {
+                            player.sendMessage(ChatColor.DARK_PURPLE + "Report not found");
+                        }
+                    } else {
+                        player.sendMessage(ChatColor.DARK_PURPLE + "/r tp ID");
+                    }
+                }
             }
+            
     	}
     }
 }
