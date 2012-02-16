@@ -13,3 +13,7 @@ commands:
     description: Report handling
     usage: |
             /r
+  rall:
+    description: View reports from all servers
+    usage: |
+            /rall

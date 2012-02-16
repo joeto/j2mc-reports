@@ -2,6 +2,7 @@ package to.joe.j2mc.reports;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import to.joe.j2mc.reports.command.AllReportsCommand;
 import to.joe.j2mc.reports.command.ReportCommand;
 import to.joe.j2mc.reports.command.ReportHandlingCommand;
 
@@ -14,6 +15,7 @@ public class J2MC_Reports extends JavaPlugin{
 		
 		this.getCommand("report").setExecutor(new ReportCommand(this));
 		this.getCommand("r").setExecutor(new ReportHandlingCommand(this));
+		this.getCommand("rall").setExecutor(new AllReportsCommand(this));
 		
 		this.getLogger().info("Reports module enabled");
 	}
