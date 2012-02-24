@@ -91,13 +91,10 @@ public class ReportsManager {
 		    Report ReportToAdd = new Report(auto_id, report.getLocation(), report.getUser(), report.getMessage(), report.getTime(), false);
 		    this.reports.add(ReportToAdd);
 	        final Location location = ReportToAdd.getLocation();
-	        final String pc = ChatColor.DARK_PURPLE.toString();
-	        final String gc = ChatColor.GOLD.toString();
-	        final String wc = ChatColor.WHITE.toString();
-	        final String x = gc + location.getBlockX() + pc + ",";
-	        final String y = gc + location.getBlockY() + pc + ",";
-	        final String z = gc + location.getBlockZ() + pc;
-	        final String message = pc + "[" + wc + "NEW REPORT" + pc + "][" + report.getID() + "][" + x + y + z + "]<" + gc + ReportToAdd.getUser() + pc + "> " + wc + ReportToAdd.getMessage();
+	        final String x = "" + ChatColor.GOLD + location.getBlockX() + ChatColor.DARK_PURPLE + ",";
+	        final String y = "" + ChatColor.GOLD + location.getBlockY() + ChatColor.DARK_PURPLE + ",";
+	        final String z = "" + ChatColor.GOLD + location.getBlockZ() + ChatColor.DARK_PURPLE;
+	        final String message = ChatColor.DARK_PURPLE + "[" + ChatColor.WHITE + "NEW REPORT" + ChatColor.DARK_PURPLE + "][" + report.getID() + "][" + x + y + z + "]<" + ChatColor.GOLD + ReportToAdd.getUser() + ChatColor.DARK_PURPLE + "> " + ChatColor.WHITE + ReportToAdd.getMessage();
 	        J2MC_Manager.getCore().adminAndLog(message);
 		}catch(SQLException e){
 			e.printStackTrace();
