@@ -4,10 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import to.joe.j2mc.core.J2MC_Manager;
+import to.joe.j2mc.core.event.MessageEvent;
 
 public class ReportsManager {
 	
@@ -94,8 +97,11 @@ public class ReportsManager {
 	        final String x = "" + ChatColor.GOLD + location.getBlockX() + ChatColor.DARK_PURPLE + ",";
 	        final String y = "" + ChatColor.GOLD + location.getBlockY() + ChatColor.DARK_PURPLE + ",";
 	        final String z = "" + ChatColor.GOLD + location.getBlockZ() + ChatColor.DARK_PURPLE;
-	        final String message = ChatColor.DARK_PURPLE + "[" + ChatColor.WHITE + "NEW REPORT" + ChatColor.DARK_PURPLE + "][" + report.getID() + "][" + x + y + z + "]<" + ChatColor.GOLD + ReportToAdd.getUser() + ChatColor.DARK_PURPLE + "> " + ChatColor.WHITE + ReportToAdd.getMessage();
+	        final String message = ChatColor.DARK_PURPLE + "[" + ChatColor.WHITE + "NEW REPORT" + ChatColor.DARK_PURPLE + "][" + ReportToAdd.getID() + "][" + x + y + z + "]<" + ChatColor.GOLD + ReportToAdd.getUser() + ChatColor.DARK_PURPLE + "> " + ChatColor.WHITE + ReportToAdd.getMessage();
 	        J2MC_Manager.getCore().adminAndLog(message);
+	        HashSet<String> targets = new HashSet<String>();
+	        targets.add("ADMININFO");
+	        plugin.getServer().getPluginManager().callEvent(new MessageEvent(targets, ChatColor.stripColor(message)));
 		}catch(SQLException e){
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
