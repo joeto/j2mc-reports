@@ -17,3 +17,6 @@ commands:
     description: View reports from all servers
     usage: |
             /rall
+permissions:
+  j2mc.admin:
+    description: causes user's reports to not be treated as proper report (Can't think of anything else ;_;)
