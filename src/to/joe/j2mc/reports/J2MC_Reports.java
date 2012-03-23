@@ -1,7 +1,5 @@
 package to.joe.j2mc.reports;
 
-import java.util.HashSet;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -55,9 +53,7 @@ public class J2MC_Reports extends JavaPlugin implements Listener{
                     response += "Seriously guys? Start cleaning up.";
                     break;
             }
-            HashSet<String> targets = new HashSet<String>();
-            targets.add("ADMININFO");
-            this.getServer().getPluginManager().callEvent(new MessageEvent(targets, response));
+            this.getServer().getPluginManager().callEvent(new MessageEvent(MessageEvent.compile("ADMININFO"), response));
         }
     }
 }

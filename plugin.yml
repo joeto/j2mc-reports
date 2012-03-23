@@ -1,6 +1,6 @@
 name: J2MC_Reports
 main: to.joe.j2mc.reports.J2MC_Reports
-version: 0.0prealpha
+version: 1.0
 website: http://forums.joe.to
 author: J2 Minecraft Plugin Team
 description: Reports Module
@@ -18,5 +18,5 @@ commands:
     usage: |
             /rall
 permissions:
-  j2mc.admin:
-    description: causes user's reports to not be treated as proper report (Can't think of anything else ;_;)
+  j2mc.reports.admin:
+    description: admin

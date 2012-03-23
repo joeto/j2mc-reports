@@ -20,7 +20,10 @@ public class AllReportsCommand extends MasterCommand{
 	
     @Override
     public void exec(CommandSender sender, String commandName, String[] args, Player player, boolean isPlayer) {
-    	try {
+    	if(!sender.hasPermission("j2mc.reports.admin")){
+    	    return;
+    	}
+        try {
 			PreparedStatement ps = J2MC_Manager.getMySQL().getFreshPreparedStatementHotFromTheOven("SELECT * FROM `reports` WHERE closed=0");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){

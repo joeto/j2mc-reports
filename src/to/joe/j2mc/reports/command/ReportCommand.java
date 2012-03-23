@@ -27,7 +27,7 @@ public class ReportCommand extends MasterCommand{
         if (isPlayer) {
         	String reportmessage = J2MC_Core.combineSplit(0, args, " ");
             if (args.length > 0) {
-            	if(player.hasPermission("j2mc.admin")){
+            	if(player.hasPermission("j2mc.reports.admin")){
             		String message = ChatColor.LIGHT_PURPLE + "Report from the field: <" + ChatColor.RED +  player.getName() + ChatColor.LIGHT_PURPLE + "> " + reportmessage;
             		J2MC_Manager.getCore().adminAndLog(message);
                     HashSet<String> targets = new HashSet<String>();
