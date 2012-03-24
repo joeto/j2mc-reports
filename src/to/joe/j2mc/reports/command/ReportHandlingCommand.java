@@ -12,19 +12,20 @@ import to.joe.j2mc.core.command.MasterCommand;
 import to.joe.j2mc.reports.J2MC_Reports;
 import to.joe.j2mc.reports.Report;
 
-public class ReportHandlingCommand extends MasterCommand{
+public class ReportHandlingCommand extends MasterCommand {
 
     J2MC_Reports plugin;
-    public ReportHandlingCommand(J2MC_Reports Reports){
+
+    public ReportHandlingCommand(J2MC_Reports Reports) {
         super(Reports);
         this.plugin = Reports;
     }
 
     @Override
     public void exec(CommandSender sender, String commandName, String[] args, Player player, boolean isPlayer) {
-        if(sender.hasPermission("j2mc.reports.admin")){
+        if (sender.hasPermission("j2mc.reports.admin")) {
             if (args.length == 0) {
-                final ArrayList<Report> reps = plugin.Manager.getReports();
+                final ArrayList<Report> reps = this.plugin.Manager.getReports();
                 final int size = reps.size();
                 if (size == 0) {
                     sender.sendMessage(ChatColor.RED + "No reports. Hurray!");
@@ -40,23 +41,23 @@ public class ReportHandlingCommand extends MasterCommand{
                         sender.sendMessage(ChatColor.DARK_PURPLE + "[" + r.getID() + "][" + x + y + z + "]<" + ChatColor.GOLD + r.getUser() + ChatColor.DARK_PURPLE + "> " + ChatColor.WHITE + r.getMessage());
                     }
                 }
-            }else {
+            } else {
                 final String action = args[0].toLowerCase();
                 if (action.equals("close")) {
                     if (args.length > 2) {
                         final int id = Integer.parseInt(args[1]);
                         if (id != 0) {
-                            plugin.Manager.closeReport(id, sender.getName(), J2MC_Core.combineSplit(2, args, " "));
+                            this.plugin.Manager.closeReport(id, sender.getName(), J2MC_Core.combineSplit(2, args, " "));
                             sender.sendMessage(ChatColor.DARK_PURPLE + "Report closed");
                         }
-                    }else {
+                    } else {
                         sender.sendMessage(ChatColor.DARK_PURPLE + "/r close ID reason");
                     }
                 }
                 if (action.equals("tp")) {
-                    if(isPlayer){
+                    if (isPlayer) {
                         if (args.length > 1) {
-                            final Report report = plugin.Manager.getReport(Integer.valueOf(args[1]));
+                            final Report report = this.plugin.Manager.getReport(Integer.valueOf(args[1]));
                             if (report != null) {
                                 player.teleport(report.getLocation());
                                 player.sendMessage(ChatColor.DARK_PURPLE + "Wheeeeeeeee");

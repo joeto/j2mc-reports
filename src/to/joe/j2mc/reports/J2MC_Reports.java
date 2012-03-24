@@ -9,29 +9,32 @@ import to.joe.j2mc.reports.command.AllReportsCommand;
 import to.joe.j2mc.reports.command.ReportCommand;
 import to.joe.j2mc.reports.command.ReportHandlingCommand;
 
-public class J2MC_Reports extends JavaPlugin implements Listener{
+public class J2MC_Reports extends JavaPlugin implements Listener {
 
-	public ReportsManager Manager;
-	public void onEnable(){
-		this.Manager = new ReportsManager(this);
-		Manager.LoadDataIntially();
-		this.getServer().getPluginManager().registerEvents(this, this);
-		
-		this.getCommand("report").setExecutor(new ReportCommand(this));
-		this.getCommand("r").setExecutor(new ReportHandlingCommand(this));
-		this.getCommand("rall").setExecutor(new AllReportsCommand(this));
-		
-		this.getLogger().info("Reports module enabled");
-	}
-	
-	public void onDisable(){
-		this.getLogger().info("Reports module disabled");
-	}
-	
+    public ReportsManager Manager;
+
+    @Override
+    public void onDisable() {
+        this.getLogger().info("Reports module disabled");
+    }
+
+    @Override
+    public void onEnable() {
+        this.Manager = new ReportsManager(this);
+        this.Manager.LoadDataIntially();
+        this.getServer().getPluginManager().registerEvents(this, this);
+
+        this.getCommand("report").setExecutor(new ReportCommand(this));
+        this.getCommand("r").setExecutor(new ReportHandlingCommand(this));
+        this.getCommand("rall").setExecutor(new AllReportsCommand(this));
+
+        this.getLogger().info("Reports module enabled");
+    }
+
     @EventHandler
     public void onIRCMessageEvent(MessageEvent event) {
-        if(event.targetting("ReportCall")){
-            int size = Manager.getReports().size();
+        if (event.targetting("ReportCall")) {
+            final int size = this.Manager.getReports().size();
             String response = "There are currently " + size + " reports open. ";
             switch (size) {
                 case 0:

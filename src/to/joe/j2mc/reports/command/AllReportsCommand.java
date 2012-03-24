@@ -12,37 +12,37 @@ import to.joe.j2mc.core.J2MC_Manager;
 import to.joe.j2mc.core.command.MasterCommand;
 import to.joe.j2mc.reports.J2MC_Reports;
 
-public class AllReportsCommand extends MasterCommand{
+public class AllReportsCommand extends MasterCommand {
 
-	public AllReportsCommand(J2MC_Reports Reports){
-		super(Reports);
-	}
-	
+    public AllReportsCommand(J2MC_Reports Reports) {
+        super(Reports);
+    }
+
     @Override
     public void exec(CommandSender sender, String commandName, String[] args, Player player, boolean isPlayer) {
-    	if(!sender.hasPermission("j2mc.reports.admin")){
-    	    return;
-    	}
+        if (!sender.hasPermission("j2mc.reports.admin")) {
+            return;
+        }
         try {
-			PreparedStatement ps = J2MC_Manager.getMySQL().getFreshPreparedStatementHotFromTheOven("SELECT * FROM `reports` WHERE closed=0");
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-				int server = rs.getInt("server");
-				int id = rs.getInt("id");
-				int x = (int) Math.round(rs.getDouble("x"));
-				int y = (int) Math.round(rs.getDouble("y"));
-				int z = (int) Math.round(rs.getDouble("z"));
-				String user = rs.getString("user");
-				String message = rs.getString("message");
-				sender.sendMessage(ChatColor.DARK_PURPLE + "[" + ChatColor.WHITE + "mc" + server + ChatColor.DARK_PURPLE + "][" + ChatColor.WHITE + id + ChatColor.DARK_PURPLE + "][" + ChatColor.GOLD + x + "," + y + "," + z + ChatColor.DARK_PURPLE + "]" + ChatColor.LIGHT_PURPLE + "<" + ChatColor.GOLD + user + ChatColor.LIGHT_PURPLE + "> " + ChatColor.WHITE + message);
-			}
-		} catch (SQLException e) {
-			sender.sendMessage("Error fetching reports");
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			sender.sendMessage("Error fetching reports");
-			e.printStackTrace();
-		}
-    	
+            final PreparedStatement ps = J2MC_Manager.getMySQL().getFreshPreparedStatementHotFromTheOven("SELECT * FROM `reports` WHERE closed=0");
+            final ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                final int server = rs.getInt("server");
+                final int id = rs.getInt("id");
+                final int x = (int) Math.round(rs.getDouble("x"));
+                final int y = (int) Math.round(rs.getDouble("y"));
+                final int z = (int) Math.round(rs.getDouble("z"));
+                final String user = rs.getString("user");
+                final String message = rs.getString("message");
+                sender.sendMessage(ChatColor.DARK_PURPLE + "[" + ChatColor.WHITE + "mc" + server + ChatColor.DARK_PURPLE + "][" + ChatColor.WHITE + id + ChatColor.DARK_PURPLE + "][" + ChatColor.GOLD + x + "," + y + "," + z + ChatColor.DARK_PURPLE + "]" + ChatColor.LIGHT_PURPLE + "<" + ChatColor.GOLD + user + ChatColor.LIGHT_PURPLE + "> " + ChatColor.WHITE + message);
+            }
+        } catch (final SQLException e) {
+            sender.sendMessage("Error fetching reports");
+            e.printStackTrace();
+        } catch (final ClassNotFoundException e) {
+            sender.sendMessage("Error fetching reports");
+            e.printStackTrace();
+        }
+
     }
 }
