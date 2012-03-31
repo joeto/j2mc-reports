@@ -18,6 +18,7 @@ public class ReportsManager {
     private ArrayList<Report> reports;
 
     private final Object sync = new Object();
+
     public ReportsManager(J2MC_Reports Reports) {
         this.plugin = Reports;
     }

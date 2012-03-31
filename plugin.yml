@@ -7,16 +7,17 @@ description: Reports Module
 commands:
   report:
     description: File a new report
-    usage: |
-            /report MESSAGE
+    usage: /report MESSAGE
   r:
     description: Report handling
-    usage: |
-            /r
+    usage: /r
+    permission: j2mc.reports.admin
+    permission-message: Nuh uh
   rall:
     description: View reports from all servers
-    usage: |
-            /rall
+    usage: /rall
+    permission: j2mc.reports.admin
+    permission-message: Nuh uh
 permissions:
   j2mc.reports.admin:
     description: admin

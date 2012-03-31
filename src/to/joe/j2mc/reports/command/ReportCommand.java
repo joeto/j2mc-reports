@@ -1,7 +1,6 @@
 package to.joe.j2mc.reports.command;
 
 import java.util.Date;
-import java.util.HashSet;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -31,9 +30,7 @@ public class ReportCommand extends MasterCommand {
                 if (player.hasPermission("j2mc.reports.admin")) {
                     final String message = ChatColor.LIGHT_PURPLE + "Report from the field: <" + ChatColor.RED + player.getName() + ChatColor.LIGHT_PURPLE + "> " + reportmessage;
                     J2MC_Manager.getCore().adminAndLog(message);
-                    final HashSet<String> targets = new HashSet<String>();
-                    targets.add("ADMININFO");
-                    this.plugin.getServer().getPluginManager().callEvent(new MessageEvent(targets, ChatColor.stripColor(message)));
+                    this.plugin.getServer().getPluginManager().callEvent(new MessageEvent(MessageEvent.compile("ADMININFO"), ChatColor.stripColor(message)));
                     player.sendMessage(ChatColor.RED + "Report transmitted. Thank you soldier.");
                 } else {
                     final Report report = new Report(0, player.getLocation(), player.getName(), reportmessage, (new Date().getTime()) / 1000, false);
