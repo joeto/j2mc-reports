@@ -23,12 +23,20 @@ public class J2MC_Reports extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         this.Manager = new ReportsManager(this);
-        this.Manager.LoadDataIntially();
+        this.Manager.LoadDataInitially();
         this.getServer().getPluginManager().registerEvents(this, this);
 
         this.getCommand("report").setExecutor(new ReportCommand(this));
         this.getCommand("r").setExecutor(new ReportHandlingCommand(this));
         this.getCommand("rall").setExecutor(new AllReportsCommand(this));
+        
+        //Read reports from sql table every 10 seconds for bob
+        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {  
+            @Override
+            public void run() {
+                Manager.LoadDataInitially();
+            }
+        }, 200, 200);
 
         this.getLogger().info("Reports module enabled");
     }

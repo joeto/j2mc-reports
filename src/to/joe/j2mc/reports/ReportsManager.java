@@ -110,7 +110,7 @@ public class ReportsManager {
     /**
      * Loads data from SQL table onEnable
      */
-    public void LoadDataIntially() {
+    public void LoadDataInitially() {
         this.plugin.Manager.reports = new ArrayList<Report>();
         try {
             final PreparedStatement ps = J2MC_Manager.getMySQL().getFreshPreparedStatementHotFromTheOven("SELECT id,user,x,y,z,pitch,yaw,message,world,time,closed from reports where server=? and closed=0");
