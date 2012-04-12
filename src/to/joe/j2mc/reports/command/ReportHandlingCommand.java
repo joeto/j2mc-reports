@@ -44,16 +44,24 @@ public class ReportHandlingCommand extends MasterCommand {
             final String action = args[0].toLowerCase();
             if (action.equals("close")) {
                 if (args.length > 1) {
-                    final int id = Integer.parseInt(args[1]);
+                    final int id;
+                    try{
+                        id = Integer.parseInt(args[1]);
+                    }catch(NumberFormatException e){
+                        sender.sendMessage(ChatColor.RED + "ID needs to be a number you dolt");
+                        return;
+                    }
                     String reason = "";
                     if(args.length > 2){
                         reason = J2MC_Core.combineSplit(2, args, " ");
                     }else{
                         reason = "Closed";
                     }
-                    if (id != 0) {
+                    if (id != 0 && (this.plugin.Manager.getReport(id) != null)) {
                         this.plugin.Manager.closeReport(id, sender.getName(), reason);
                         sender.sendMessage(ChatColor.DARK_PURPLE + "Report closed");
+                    }else{
+                        sender.sendMessage(ChatColor.RED + "No such report");
                     }
                 } else {
                     sender.sendMessage(ChatColor.DARK_PURPLE + "/r close ID [reason]");
