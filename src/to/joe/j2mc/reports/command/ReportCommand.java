@@ -29,7 +29,7 @@ public class ReportCommand extends MasterCommand {
             if (args.length > 0) {
                 if (player.hasPermission("j2mc.reports.admin")) {
                     if(args[0].equalsIgnoreCase("force")){
-                        final Report report = new Report(0, player.getLocation(), player.getName(), reportmessage, (new Date().getTime()) / 1000, false);
+                        final Report report = new Report(0, player.getLocation(), player.getName(), J2MC_Core.combineSplit(1, args, " "), (new Date().getTime()) / 1000, false);
                         this.plugin.Manager.AddReportFromCommand(report);
                         player.sendMessage(ChatColor.RED + "Sent report as would be sent normally!");
                         player.sendMessage(ChatColor.RED + "Hope you had a good reason for that " + ChatColor.AQUA + "<3");
