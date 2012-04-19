@@ -1,6 +1,7 @@
 package to.joe.j2mc.reports.command;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -45,22 +46,22 @@ public class ReportHandlingCommand extends MasterCommand {
             if (action.equals("close")) {
                 if (args.length > 1) {
                     final int id;
-                    try{
+                    try {
                         id = Integer.parseInt(args[1]);
-                    }catch(NumberFormatException e){
+                    } catch (NumberFormatException e) {
                         sender.sendMessage(ChatColor.RED + "ID needs to be a number you dolt");
                         return;
                     }
                     String reason = "";
-                    if(args.length > 2){
+                    if (args.length > 2) {
                         reason = J2MC_Core.combineSplit(2, args, " ");
-                    }else{
+                    } else {
                         reason = "Closed";
                     }
                     if (id != 0 && (this.plugin.Manager.getReport(id) != null)) {
                         this.plugin.Manager.closeReport(id, sender.getName(), reason);
                         sender.sendMessage(ChatColor.DARK_PURPLE + "Report closed");
-                    }else{
+                    } else {
                         sender.sendMessage(ChatColor.RED + "No such report");
                     }
                 } else {
@@ -82,6 +83,71 @@ public class ReportHandlingCommand extends MasterCommand {
                     }
                 }
             }
+            if (action.equals("massclose")) {
+                if (args.length > 3) {
+                    if (args[1].contains(",") && this.isInteger((args[1].replace(",", "")))) {
+                        ArrayList<Integer> reports = new ArrayList<Integer>();
+                        ArrayList<String> argsAsList = new ArrayList<String>(Arrays.asList(args));
+                        argsAsList.remove(0);
+                        int endReportIndex = 0;
+                        for (String arg : argsAsList) {
+                            if (this.isInteger(arg.replace(",", ""))) {
+                                reports.add(Integer.parseInt(arg));
+                                endReportIndex++;
+                            } else {
+                                break;
+                            }
+                        }
+                        String reason;
+                        if (args.length > endReportIndex) {
+                            reason = J2MC_Core.combineSplit(endReportIndex + 1, args, " ");
+                        } else {
+                            reason = "Closed";
+                        }
+                        for (Report report : this.plugin.Manager.getReports()) {
+                            if (reports.contains(report.getID())) {
+                                this.plugin.Manager.closeReport(report.getID(), sender.getName(), reason);
+                            }
+                        }
+                        StringBuilder builder = new StringBuilder();
+                        builder.append(ChatColor.DARK_PURPLE + "Mass closed reports ");
+                        for (int id : reports) {
+                            builder.append(id + ", ");
+                        }
+                        builder.setLength(builder.length() - 2);
+                        sender.sendMessage(builder.toString());
+                        return;
+                    }
+                } else {
+                    sender.sendMessage(ChatColor.DARK_PURPLE + "Usage: /r massclose report1, report2 [reason]");
+                    sender.sendMessage(ChatColor.DARK_PURPLE + "Example usage: /r massclose 167, 168, 169, 170, 171 Handled by dog");
+                }
+                if (args.length > 1) {
+                    String reason;
+                    if (args.length > 2) {
+                        reason = J2MC_Core.combineSplit(2, args, " ");
+                    } else {
+                        reason = "Closed";
+                    }
+                    for (Report report : this.plugin.Manager.getReports()) {
+                        if (report.getUser().equalsIgnoreCase(args[1])) {
+                            this.plugin.Manager.closeReport(report.getID(), sender.getName(), reason);
+                        }
+                    }
+                    sender.sendMessage(ChatColor.DARK_PURPLE + "Mass closed all reports by " + args[1]);
+                } else {
+                    sender.sendMessage(ChatColor.DARK_PURPLE + "/r massclose <user> [reason]");
+                }
+            }
+        }
+    }
+
+    public boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }
