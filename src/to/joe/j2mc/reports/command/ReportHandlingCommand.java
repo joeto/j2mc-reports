@@ -84,14 +84,15 @@ public class ReportHandlingCommand extends MasterCommand {
                 }
             }
             if (action.equals("massclose")) {
-                if (args.length > 3) {
-                    if (args[1].contains(",") && this.isInteger((args[1].replace(",", "")))) {
+                if (args.length > 1) {
+                if (this.isInteger(args[1])) {
+                    if (args.length > 1) {
                         ArrayList<Integer> reports = new ArrayList<Integer>();
                         ArrayList<String> argsAsList = new ArrayList<String>(Arrays.asList(args));
                         argsAsList.remove(0);
-                        int endReportIndex = 0;
+                        int endReportIndex = 1;
                         for (String arg : argsAsList) {
-                            if (this.isInteger(arg.replace(",", ""))) {
+                            if (this.isInteger(arg)) {
                                 reports.add(Integer.parseInt(arg));
                                 endReportIndex++;
                             } else {
@@ -99,6 +100,7 @@ public class ReportHandlingCommand extends MasterCommand {
                             }
                         }
                         String reason;
+                        plugin.getLogger().info("End report index: " + endReportIndex);
                         if (args.length > endReportIndex) {
                             reason = J2MC_Core.combineSplit(endReportIndex + 1, args, " ");
                         } else {
@@ -117,10 +119,10 @@ public class ReportHandlingCommand extends MasterCommand {
                         builder.setLength(builder.length() - 2);
                         sender.sendMessage(builder.toString());
                         return;
+                    } else {
+                        sender.sendMessage(ChatColor.DARK_PURPLE + "/r massclose id1 id2 id3 [reason]");
+                        sender.sendMessage(ChatColor.DARK_PURPLE + "Example usage: /r massclose 15 16 17 18 handled by dog");
                     }
-                } else {
-                    sender.sendMessage(ChatColor.DARK_PURPLE + "Usage: /r massclose report1, report2 [reason]");
-                    sender.sendMessage(ChatColor.DARK_PURPLE + "Example usage: /r massclose 167, 168, 169, 170, 171 Handled by dog");
                 }
                 if (args.length > 1) {
                     String reason;
@@ -137,6 +139,11 @@ public class ReportHandlingCommand extends MasterCommand {
                     sender.sendMessage(ChatColor.DARK_PURPLE + "Mass closed all reports by " + args[1]);
                 } else {
                     sender.sendMessage(ChatColor.DARK_PURPLE + "/r massclose <user> [reason]");
+                }
+                } else {
+                    sender.sendMessage(ChatColor.DARK_PURPLE + "Usage: /r massclose <user> [reason] " + ChatColor.AQUA + " OR");
+                    sender.sendMessage(ChatColor.DARK_PURPLE + "/r massclose id1 id2 id3 [reason]");
+                    sender.sendMessage(ChatColor.DARK_PURPLE + "Example usage: /r massclose 15 16 17 18 handled by dog");
                 }
             }
         }
