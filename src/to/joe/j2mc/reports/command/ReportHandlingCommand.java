@@ -85,61 +85,61 @@ public class ReportHandlingCommand extends MasterCommand {
             }
             if (action.equals("massclose")) {
                 if (args.length > 1) {
-                if (this.isInteger(args[1])) {
-                    if (args.length > 1) {
-                        ArrayList<Integer> reports = new ArrayList<Integer>();
-                        ArrayList<String> argsAsList = new ArrayList<String>(Arrays.asList(args));
-                        argsAsList.remove(0);
-                        int endReportIndex = 1;
-                        for (String arg : argsAsList) {
-                            if (this.isInteger(arg)) {
-                                reports.add(Integer.parseInt(arg));
-                                endReportIndex++;
-                            } else {
-                                break;
+                    if (this.isInteger(args[1])) {
+                        if (args.length > 1) {
+                            ArrayList<Integer> reports = new ArrayList<Integer>();
+                            ArrayList<String> argsAsList = new ArrayList<String>(Arrays.asList(args));
+                            argsAsList.remove(0);
+                            int endReportIndex = 1;
+                            for (String arg : argsAsList) {
+                                if (this.isInteger(arg)) {
+                                    reports.add(Integer.parseInt(arg));
+                                    endReportIndex++;
+                                } else {
+                                    break;
+                                }
                             }
+                            String reason;
+                            plugin.getLogger().info("End report index: " + endReportIndex);
+                            if (args.length > endReportIndex) {
+                                reason = J2MC_Core.combineSplit(endReportIndex + 1, args, " ");
+                            } else {
+                                reason = "Closed";
+                            }
+                            for (Report report : this.plugin.Manager.getReports()) {
+                                if (reports.contains(report.getID())) {
+                                    this.plugin.Manager.closeReport(report.getID(), sender.getName(), reason);
+                                }
+                            }
+                            StringBuilder builder = new StringBuilder();
+                            builder.append(ChatColor.DARK_PURPLE + "Mass closed reports ");
+                            for (int id : reports) {
+                                builder.append(id + ", ");
+                            }
+                            builder.setLength(builder.length() - 2);
+                            sender.sendMessage(builder.toString());
+                            return;
+                        } else {
+                            sender.sendMessage(ChatColor.DARK_PURPLE + "/r massclose id1 id2 id3 [reason]");
+                            sender.sendMessage(ChatColor.DARK_PURPLE + "Example usage: /r massclose 15 16 17 18 handled by dog");
                         }
+                    }
+                    if (args.length > 1) {
                         String reason;
-                        plugin.getLogger().info("End report index: " + endReportIndex);
-                        if (args.length > endReportIndex) {
-                            reason = J2MC_Core.combineSplit(endReportIndex + 1, args, " ");
+                        if (args.length > 2) {
+                            reason = J2MC_Core.combineSplit(2, args, " ");
                         } else {
                             reason = "Closed";
                         }
                         for (Report report : this.plugin.Manager.getReports()) {
-                            if (reports.contains(report.getID())) {
+                            if (report.getUser().equalsIgnoreCase(args[1])) {
                                 this.plugin.Manager.closeReport(report.getID(), sender.getName(), reason);
                             }
                         }
-                        StringBuilder builder = new StringBuilder();
-                        builder.append(ChatColor.DARK_PURPLE + "Mass closed reports ");
-                        for (int id : reports) {
-                            builder.append(id + ", ");
-                        }
-                        builder.setLength(builder.length() - 2);
-                        sender.sendMessage(builder.toString());
-                        return;
+                        sender.sendMessage(ChatColor.DARK_PURPLE + "Mass closed all reports by " + args[1]);
                     } else {
-                        sender.sendMessage(ChatColor.DARK_PURPLE + "/r massclose id1 id2 id3 [reason]");
-                        sender.sendMessage(ChatColor.DARK_PURPLE + "Example usage: /r massclose 15 16 17 18 handled by dog");
+                        sender.sendMessage(ChatColor.DARK_PURPLE + "/r massclose <user> [reason]");
                     }
-                }
-                if (args.length > 1) {
-                    String reason;
-                    if (args.length > 2) {
-                        reason = J2MC_Core.combineSplit(2, args, " ");
-                    } else {
-                        reason = "Closed";
-                    }
-                    for (Report report : this.plugin.Manager.getReports()) {
-                        if (report.getUser().equalsIgnoreCase(args[1])) {
-                            this.plugin.Manager.closeReport(report.getID(), sender.getName(), reason);
-                        }
-                    }
-                    sender.sendMessage(ChatColor.DARK_PURPLE + "Mass closed all reports by " + args[1]);
-                } else {
-                    sender.sendMessage(ChatColor.DARK_PURPLE + "/r massclose <user> [reason]");
-                }
                 } else {
                     sender.sendMessage(ChatColor.DARK_PURPLE + "Usage: /r massclose <user> [reason] " + ChatColor.AQUA + " OR");
                     sender.sendMessage(ChatColor.DARK_PURPLE + "/r massclose id1 id2 id3 [reason]");

@@ -29,9 +29,9 @@ public class J2MC_Reports extends JavaPlugin implements Listener {
         this.getCommand("report").setExecutor(new ReportCommand(this));
         this.getCommand("r").setExecutor(new ReportHandlingCommand(this));
         this.getCommand("rall").setExecutor(new AllReportsCommand(this));
-        
-        //Read reports from sql table every 10 seconds for bob
-        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {  
+
+        // Read reports from sql table every 10 seconds for bob
+        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
                 Manager.LoadDataInitially();
@@ -40,16 +40,16 @@ public class J2MC_Reports extends JavaPlugin implements Listener {
 
         this.getLogger().info("Reports module enabled");
     }
-    
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-    	if (event.getPlayer().hasPermission("j2mc.reports.admin")) {
-    		int size = Manager.getReports().size();
-    		if (size != 0) {
-    			event.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "There are currently " + size + " open reports.");
-    			event.getPlayer().sendMessage(ChatColor.GOLD + "/rall" + ChatColor.LIGHT_PURPLE + " to see open reports on all servers, " + ChatColor.GOLD + "/r" + ChatColor.LIGHT_PURPLE + " to see open reports on current server.");
-    		}
-    	}
+        if (event.getPlayer().hasPermission("j2mc.reports.admin")) {
+            int size = Manager.getReports().size();
+            if (size != 0) {
+                event.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "There are currently " + size + " open reports.");
+                event.getPlayer().sendMessage(ChatColor.GOLD + "/rall" + ChatColor.LIGHT_PURPLE + " to see open reports on all servers, " + ChatColor.GOLD + "/r" + ChatColor.LIGHT_PURPLE + " to see open reports on current server.");
+            }
+        }
     }
 
     @EventHandler

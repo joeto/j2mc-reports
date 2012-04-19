@@ -28,7 +28,7 @@ public class ReportCommand extends MasterCommand {
             final String reportmessage = J2MC_Core.combineSplit(0, args, " ");
             if (args.length > 0) {
                 if (player.hasPermission("j2mc.reports.admin")) {
-                    if(args[0].equalsIgnoreCase("force")){
+                    if (args[0].equalsIgnoreCase("force")) {
                         final Report report = new Report(0, player.getLocation(), player.getName(), J2MC_Core.combineSplit(1, args, " "), (new Date().getTime()) / 1000, false);
                         this.plugin.Manager.AddReportFromCommand(report);
                         player.sendMessage(ChatColor.RED + "Sent report as would be sent normally!");
@@ -43,9 +43,9 @@ public class ReportCommand extends MasterCommand {
                     final Report report = new Report(0, player.getLocation(), player.getName(), reportmessage, (new Date().getTime()) / 1000, false);
                     this.plugin.Manager.AddReportFromCommand(report);
                     player.sendMessage(ChatColor.RED + "Report received. Thanks! :)");
-                    
+
                     player.sendMessage(ChatColor.RED + "Assuming you gave a description, we will handle it");
-                    if(args[0].equals("MESSAGE")){
+                    if (args[0].equals("MESSAGE")) {
                         player.sendMessage(ChatColor.RED + "FYI, /report MESSAGE is just an example, you don't need to put the MESSAGE there");
                     }
                 }
