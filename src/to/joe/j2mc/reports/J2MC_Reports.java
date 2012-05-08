@@ -1,11 +1,16 @@
 package to.joe.j2mc.reports;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import to.joe.j2mc.core.J2MC_Manager;
 import to.joe.j2mc.core.event.MessageEvent;
 import to.joe.j2mc.reports.command.AllReportsCommand;
 import to.joe.j2mc.reports.command.ReportCommand;
@@ -44,11 +49,23 @@ public class J2MC_Reports extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (event.getPlayer().hasPermission("j2mc.reports.admin")) {
-            int size = Manager.getReports().size();
-            if (size != 0) {
-                event.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "There are currently " + size + " open reports.");
-                event.getPlayer().sendMessage(ChatColor.GOLD + "/rall" + ChatColor.LIGHT_PURPLE + " to see open reports on all servers, " + ChatColor.GOLD + "/r" + ChatColor.LIGHT_PURPLE + " to see open reports on current server.");
+        	int open = 0;
+        	try {
+                final PreparedStatement ps = J2MC_Manager.getMySQL().getFreshPreparedStatementHotFromTheOven("SELECT * FROM `reports` WHERE closed=0");
+                final ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    open++;
+                }
+            } catch (final SQLException e) {
+                event.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "Couldn't fetch all reports!");
+                e.printStackTrace();
+            } catch (final ClassNotFoundException e) {
+            	event.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "Couldn't fetch all reports!");
+                e.printStackTrace();
             }
+        	
+            event.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "Currently " + Manager.getReports().size() + " open reports on current server.");
+            event.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + String.valueOf(open-Manager.getReports().size()) + " open reports on other servers.");
         }
     }
 
