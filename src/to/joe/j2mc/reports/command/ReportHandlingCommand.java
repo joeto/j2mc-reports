@@ -71,6 +71,7 @@ public class ReportHandlingCommand extends MasterCommand {
             if (action.equals("tp")) {
                 if (isPlayer) {
                     if (args.length > 1) {
+                        final int id;
                         try {
                             id = Integer.parseInt(args[1]);
                         } catch (NumberFormatException e) {
