@@ -71,7 +71,13 @@ public class ReportHandlingCommand extends MasterCommand {
             if (action.equals("tp")) {
                 if (isPlayer) {
                     if (args.length > 1) {
-                        final Report report = this.plugin.Manager.getReport(Integer.valueOf(args[1]));
+                        try {
+                            id = Integer.parseInt(args[1]);
+                        } catch (NumberFormatException e) {
+                            sender.sendMessage(ChatColor.RED + "ID needs to be a number you dolt");
+                            return;
+                        }
+                        final Report report = this.plugin.Manager.getReport(id);
                         if (report != null) {
                             player.teleport(report.getLocation());
                             player.sendMessage(ChatColor.DARK_PURPLE + "Wheeeeeeeee");
