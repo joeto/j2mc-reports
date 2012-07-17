@@ -51,10 +51,10 @@ public class J2MC_Reports extends JavaPlugin implements Listener {
         if (event.getPlayer().hasPermission("j2mc.reports.admin")) {
         	int open = 0;
         	try {
-                final PreparedStatement ps = J2MC_Manager.getMySQL().getFreshPreparedStatementHotFromTheOven("SELECT * FROM `reports` WHERE closed=0");
+                final PreparedStatement ps = J2MC_Manager.getMySQL().getFreshPreparedStatementHotFromTheOven("SELECT count(*) FROM `reports` WHERE closed=0");
                 final ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    open++;
+                if (rs.next()) {
+                    open = rs.getInt(0);
                 }
             } catch (final SQLException e) {
                 event.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "Couldn't fetch all reports!");
