@@ -25,8 +25,8 @@ public class ReportCommand extends MasterCommand {
     @Override
     public void exec(CommandSender sender, String commandName, String[] args, Player player, boolean isPlayer) {
         if (isPlayer) {
-            final String reportmessage = J2MC_Core.combineSplit(0, args, " ");
             if (args.length > 0) {
+                final String reportmessage = J2MC_Core.combineSplit(0, args, " ");
                 if (player.hasPermission("j2mc.reports.admin")) {
                     if (args[0].equalsIgnoreCase("force")) {
                         final Report report = new Report(0, player.getLocation(), player.getName(), J2MC_Core.combineSplit(1, args, " "), (new Date().getTime()) / 1000, false);
