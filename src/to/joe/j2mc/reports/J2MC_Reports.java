@@ -59,9 +59,6 @@ public class J2MC_Reports extends JavaPlugin implements Listener {
             } catch (final SQLException e) {
                 event.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "Couldn't fetch all reports!");
                 e.printStackTrace();
-            } catch (final ClassNotFoundException e) {
-            	event.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "Couldn't fetch all reports!");
-                e.printStackTrace();
             }
         	
             event.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "Currently " + Manager.getReports().size() + " open reports on current server.");

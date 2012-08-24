@@ -51,7 +51,6 @@ public class ReportsManager {
             this.plugin.getServer().getPluginManager().callEvent(new MessageEvent(MessageEvent.compile("ADMININFO"), ChatColor.stripColor(message)));
         } catch (final SQLException e) {
             e.printStackTrace();
-        } catch (final ClassNotFoundException e) {
         }
     }
 
@@ -73,8 +72,6 @@ public class ReportsManager {
                 ps.executeUpdate();
                 this.reports.remove(r);
             } catch (final SQLException e) {
-                e.printStackTrace();
-            } catch (final ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -122,8 +119,6 @@ public class ReportsManager {
                 this.plugin.Manager.reports.add(r);
             }
         } catch (final SQLException e) {
-            e.printStackTrace();
-        } catch (final ClassNotFoundException e) {
             e.printStackTrace();
         }
 

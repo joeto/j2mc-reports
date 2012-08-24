@@ -36,9 +36,6 @@ public class AllReportsCommand extends MasterCommand {
         } catch (final SQLException e) {
             sender.sendMessage("Error fetching reports");
             e.printStackTrace();
-        } catch (final ClassNotFoundException e) {
-            sender.sendMessage("Error fetching reports");
-            e.printStackTrace();
         }
 
     }
