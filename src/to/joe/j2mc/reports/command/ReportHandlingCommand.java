@@ -2,9 +2,12 @@ package to.joe.j2mc.reports.command;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -16,6 +19,13 @@ import to.joe.j2mc.reports.Report;
 public class ReportHandlingCommand extends MasterCommand {
 
     J2MC_Reports plugin;
+    
+    private static final List<String> POTENTIAL_ARGUMENTS = new ArrayList<String>();
+    static {
+        POTENTIAL_ARGUMENTS.add("close");
+        POTENTIAL_ARGUMENTS.add("tp");
+        POTENTIAL_ARGUMENTS.add("massclose");
+    }
 
     public ReportHandlingCommand(J2MC_Reports Reports) {
         super(Reports);
@@ -43,7 +53,7 @@ public class ReportHandlingCommand extends MasterCommand {
             }
         } else {
             final String action = args[0].toLowerCase();
-            if (action.equals("close")) {
+            if (action.equalsIgnoreCase("close")) {
                 if (args.length > 1) {
                     final int id;
                     try {
@@ -68,7 +78,7 @@ public class ReportHandlingCommand extends MasterCommand {
                     sender.sendMessage(ChatColor.DARK_PURPLE + "/r close ID [reason]");
                 }
             }
-            if (action.equals("tp")) {
+            if (action.equalsIgnoreCase("tp")) {
                 if (isPlayer) {
                     if (args.length > 1) {
                         final int id;
@@ -90,7 +100,7 @@ public class ReportHandlingCommand extends MasterCommand {
                     }
                 }
             }
-            if (action.equals("massclose")) {
+            if (action.equalsIgnoreCase("massclose")) {
                 if (args.length > 1) {
                     if (this.isInteger(args[1])) {
                         if (args.length > 1) {
@@ -107,7 +117,6 @@ public class ReportHandlingCommand extends MasterCommand {
                                 }
                             }
                             String reason;
-                            plugin.getLogger().info("End report index: " + endReportIndex);
                             if (args.length > endReportIndex) {
                                 reason = J2MC_Core.combineSplit(endReportIndex + 1, args, " ");
                             } else {
@@ -154,6 +163,34 @@ public class ReportHandlingCommand extends MasterCommand {
                 }
             }
         }
+    }
+    
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> matches = new ArrayList<String>();
+        
+        if (args.length == 1) {                        
+            for (String argument : POTENTIAL_ARGUMENTS) {
+                if (argument.startsWith(args[0])) {
+                    matches.add(argument);
+                }
+            }
+            
+            return matches;
+        }
+        
+        if (args.length == 2 && !(args[0].equalsIgnoreCase("massclose"))) {
+            for (Report report : plugin.Manager.getReports()) {
+                if (Integer.toString(report.getID()).startsWith(args[1])) {
+                    matches.add(Integer.toString(report.getID()));
+                }
+            }
+            
+            Collections.sort(matches);
+            return matches;
+        }
+        
+        return matches;
     }
 
     public boolean isInteger(String input) {
