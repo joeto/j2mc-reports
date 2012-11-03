@@ -25,6 +25,7 @@ public class ReportHandlingCommand extends MasterCommand {
         POTENTIAL_ARGUMENTS.add("close");
         POTENTIAL_ARGUMENTS.add("tp");
         POTENTIAL_ARGUMENTS.add("massclose");
+        POTENTIAL_ARGUMENTS.add("keyclose");
     }
 
     public ReportHandlingCommand(J2MC_Reports Reports) {
@@ -160,6 +161,34 @@ public class ReportHandlingCommand extends MasterCommand {
                     sender.sendMessage(ChatColor.DARK_PURPLE + "Usage: /r massclose <user> [reason] " + ChatColor.AQUA + " OR");
                     sender.sendMessage(ChatColor.DARK_PURPLE + "/r massclose id1 id2 id3 [reason]");
                     sender.sendMessage(ChatColor.DARK_PURPLE + "Example usage: /r massclose 15 16 17 18 handled by dog");
+                }
+            }
+            if (action.equalsIgnoreCase("keyclose")) {
+                String reason = "Closed.";
+                if (args.length < 2) {
+                    sender.sendMessage(ChatColor.DARK_PURPLE + "Usage: /r keyclose <keyword> [reason]");
+                    sender.sendMessage(ChatColor.DARK_PURPLE + "This will close all open reports containing the keyword specified");
+                    return;
+                } else if (args.length > 2) {
+                    reason = J2MC_Core.combineSplit(2, args, " ");
+                }
+                ArrayList<Integer> _reports = new ArrayList<Integer>();
+                for (Report r : this.plugin.Manager.getReports()) {
+                    if (r.getMessage().contains(args[1])) {
+                        _reports.add(r.getID());
+                    }
+                }
+                if (!(_reports.isEmpty())) {
+                    StringBuilder msg = new StringBuilder();
+                    msg.append(ChatColor.DARK_PURPLE + "Closed all reports containing the keyword " + args[1] + ": ");
+                    for (int id : _reports) {
+                        this.plugin.Manager.closeReport(id, sender.getName(), reason);
+                        msg.append(id + ", ");
+                    }
+                    msg.setLength(msg.length() - 2);
+                    sender.sendMessage(msg.toString());
+                } else {
+                    sender.sendMessage(ChatColor.DARK_PURPLE + "Sorry, no open reports contained that keyword");
                 }
             }
         }
