@@ -171,7 +171,7 @@ public class ReportHandlingCommand extends MasterCommand<J2MC_Reports> {
                 }
                 ArrayList<Integer> _reports = new ArrayList<Integer>();
                 for (Report r : this.plugin.Manager.getReports()) {
-                    if (r.getMessage().contains(args[1])) {
+                    if (r.getMessage().toLowerCase().contains(args[1].toLowerCase())) {
                         _reports.add(r.getID());
                     }
                 }
