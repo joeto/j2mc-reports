@@ -13,13 +13,10 @@ import to.joe.j2mc.core.event.MessageEvent;
 import to.joe.j2mc.reports.J2MC_Reports;
 import to.joe.j2mc.reports.Report;
 
-public class ReportCommand extends MasterCommand {
-
-    J2MC_Reports plugin;
+public class ReportCommand extends MasterCommand<J2MC_Reports> {
 
     public ReportCommand(J2MC_Reports Reports) {
         super(Reports);
-        this.plugin = Reports;
     }
 
     @Override

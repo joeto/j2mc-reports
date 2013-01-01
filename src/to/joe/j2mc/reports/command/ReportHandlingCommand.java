@@ -16,10 +16,8 @@ import to.joe.j2mc.core.command.MasterCommand;
 import to.joe.j2mc.reports.J2MC_Reports;
 import to.joe.j2mc.reports.Report;
 
-public class ReportHandlingCommand extends MasterCommand {
+public class ReportHandlingCommand extends MasterCommand<J2MC_Reports> {
 
-    J2MC_Reports plugin;
-    
     private static final List<String> POTENTIAL_ARGUMENTS = new ArrayList<String>();
     static {
         POTENTIAL_ARGUMENTS.add("close");
@@ -29,7 +27,6 @@ public class ReportHandlingCommand extends MasterCommand {
 
     public ReportHandlingCommand(J2MC_Reports Reports) {
         super(Reports);
-        this.plugin = Reports;
     }
 
     @Override

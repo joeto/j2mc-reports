@@ -12,7 +12,7 @@ import to.joe.j2mc.core.J2MC_Manager;
 import to.joe.j2mc.core.command.MasterCommand;
 import to.joe.j2mc.reports.J2MC_Reports;
 
-public class AllReportsCommand extends MasterCommand {
+public class AllReportsCommand extends MasterCommand<J2MC_Reports> {
 
     public AllReportsCommand(J2MC_Reports Reports) {
         super(Reports);
